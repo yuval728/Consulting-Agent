@@ -9,7 +9,7 @@ import dotenv
 dotenv.load_dotenv()
 
 llm = LLM(
-    model="gemini/gemini-2.0-flash-lite",
+    model="gemini/gemini-2.0-flash",
     temperature=0.0,
 )
 
@@ -104,7 +104,7 @@ class Consulting():
     def marketing_strategy_task(self) -> Task:
         return Task(
             config=self.tasks_config['marketing_strategy_task'],
-            # async_execution=True,
+            async_execution=True,
         )
 
     @crew

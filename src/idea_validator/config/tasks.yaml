@@ -1,0 +1,41 @@
+evaluate_idea_task:
+  description: >
+    Analyze "{idea}" for originality, clarity, and relevance in the {industry} industry.
+    Compare it against existing solutions and check for any red flags or confusion in concept.
+  expected_output: >
+    A detailed critique of the idea with a score or notes on its novelty, clarity, and alignment
+    with current market needs in {region}.
+  agent: idea_evaluator
+
+build_persona_task:
+  description: >
+    Identify and define the primary and secondary customer personas for "{idea}".
+    Focus on {target_audience} and outline their pain points, behaviors, demographics, and motivations.
+  expected_output: >
+    2–3 detailed personas with pain points, goals, and objections related to the problem that "{idea}" aims to solve.
+  agent: customer_persona_builder
+
+lean_canvas_task:
+  description: >
+    Construct a complete Lean Canvas for "{idea}" using available context.
+    Evaluate each component and suggest improvements or risks in the model.
+  expected_output: >
+    A Lean Canvas table filled out for "{idea}" along with a bullet-point critique of weaknesses, blind spots, or assumptions.
+  agent: lean_canvas_agent
+
+mvp_suggestion_task:
+  description: >
+    Propose the best MVP strategy for "{idea}". Recommend essential features only, aligned with solving the biggest pain point.
+  expected_output: >
+    A prioritized list of MVP features, cost-effective tech stack suggestions, and potential validation metrics.
+  agent: mvp_recommender
+
+business_model_task:
+  description: >
+    Analyze the business model behind "{idea}" in the context of a {business_model}.
+    Explore monetization potential, customer lifetime value, acquisition cost,
+    and whether it scales well in {region} for {target_audience}.
+  expected_output: >
+    A critical review of the business model with tables or bullets showing CAC, LTV, channels,
+    revenue streams, pricing models, and a recommendation whether to pivot, double down, or adjust.
+  agent: business_model_analyst
