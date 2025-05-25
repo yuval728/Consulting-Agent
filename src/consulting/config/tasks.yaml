@@ -1,0 +1,39 @@
+market_analysis_task:
+  description: >
+    Conduct a comprehensive market analysis for the {industry} sector
+    in the {region} region, focusing on trends, competitor activities,
+    and customer preferences. Use the latest available data as of {current_year}.
+  expected_output: >
+    A detailed report including market trends, key competitors,
+    growth opportunities, and potential challenges within the {industry} sector in {region}.
+  agent: market_analyst
+
+financial_evaluation_task:
+  description: >
+    Assess the financial health and investment potential of companies
+    in the {industry} sector offering {product_type} solutions.
+    Consider risks, ROI, and budgeting strategies relevant for {company_size} businesses.
+  expected_output: >
+    A financial evaluation report with risk analysis, projected returns,
+    and actionable recommendations for {company_size} companies.
+  agent: financial_advisor
+
+technology_assessment_task:
+  description: >
+    Research and recommend technology stacks, tools, and infrastructure
+    best suited for {company_size} {industry} companies delivering {product_type}.
+    Consider scalability, cost-effectiveness, and innovation as of {current_year}.
+  expected_output: >
+    A technology recommendation report highlighting suitable platforms,
+    frameworks, and tools with pros, cons, and implementation strategies.
+  agent: tech_consultant
+
+marketing_strategy_task:
+  description: >
+    Develop a marketing strategy tailored to {company_size} companies
+    in the {industry} sector focused on promoting {product_type} in the {region} market.
+    Include digital channels, messaging, and customer engagement tactics.
+  expected_output: >
+    A comprehensive marketing plan including target audience,
+    campaign ideas, key performance indicators (KPIs), and timelines.
+  agent: marketing_strategist
