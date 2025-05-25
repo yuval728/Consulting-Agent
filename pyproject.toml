@@ -2,23 +2,26 @@
 name = "consulting"
 version = "0.1.0"
 description = "Consulting using crewAI"
-authors = [{ name = "Your Name", email = "you@example.com" }]
+authors = [
+    { name = "Your Name", email = "you@example.com" },
+]
 requires-python = ">=3.10,<3.13"
 dependencies = [
     "crewai[tools]>=0.114.0,<1.0.0",
     "linkup-sdk>=0.2.5",
+    "streamlit>=1.45.1",
 ]
 
 [project.scripts]
 consulting = "consulting.main:run"
+idea_validator = "idea_validator.main:run"
 run_crew = "consulting.main:run"
 train = "consulting.main:train"
 replay = "consulting.main:replay"
 test = "consulting.main:test"
 
 [build-system]
-requires = ["hatchling"]
+requires = [
+    "hatchling",
+]
 build-backend = "hatchling.build"
-
-[tool.crewai]
-type = "crew"

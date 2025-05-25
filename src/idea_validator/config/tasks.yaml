@@ -32,7 +32,7 @@ mvp_suggestion_task:
 
 business_model_task:
   description: >
-    Analyze the business model behind "{idea}" in the context of a {business_model}.
+    Analyze the business model behind "{idea}".
     Explore monetization potential, customer lifetime value, acquisition cost,
     and whether it scales well in {region} for {target_audience}.
   expected_output: >

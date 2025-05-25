@@ -9,7 +9,7 @@ import dotenv
 dotenv.load_dotenv()
 
 llm = LLM(
-    model="gemini/gemini-2.0-flash",
+    model="gemini/gemini-2.0-flash-lite",
     temperature=0.0,
 )
 
@@ -21,16 +21,16 @@ manager = LLM(
 linkup_search = LinkupSearchTool(api_key=os.getenv('LINKUP_API_KEY'))
 
 @CrewBase
-class Consulting():
-    """Consulting crew"""
+class IdeaValidator():
+    """Idea Validator crew for validating business ideas and building personas."""
 
     agents_config = 'config/agents.yaml'  # Assume this is a dict loaded from YAML
     tasks_config = 'config/tasks.yaml'    # Assume this is a dict loaded from YAML
 
     @agent
-    def market_analyst(self) -> Agent:
+    def idea_evaluator(self) -> Agent:
         return Agent(
-            config=self.agents_config['market_analyst'],
+            config=self.agents_config['idea_evaluator'],
             verbose=True,
             # llm=llm,
             tools=[
@@ -41,9 +41,9 @@ class Consulting():
         )
 
     @agent
-    def financial_advisor(self) -> Agent:
+    def customer_persona_builder(self) -> Agent:
         return Agent(
-            config=self.agents_config['financial_advisor'],
+            config=self.agents_config['customer_persona_builder'],
             verbose=True,
             # llm=llm,
             tools=[
@@ -54,9 +54,9 @@ class Consulting():
         )
 
     @agent
-    def tech_consultant(self) -> Agent:
+    def lean_canvas_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['tech_consultant'],
+            config=self.agents_config['lean_canvas_agent'],
             verbose=True,
             # llm=llm,
             tools=[
@@ -67,9 +67,22 @@ class Consulting():
         )
 
     @agent
-    def marketing_strategist(self) -> Agent:
+    def mvp_recommender(self) -> Agent:
         return Agent(
-            config=self.agents_config['marketing_strategist'],
+            config=self.agents_config['mvp_recommender'],
+            verbose=True,
+            # llm=llm,
+            tools=[
+                ScrapeWebsiteTool(),
+                linkup_search,
+            ],
+            # allow_delegation=True
+        )
+        
+    @agent
+    def business_model_analyst(self) -> Agent:
+        return Agent(
+            config=self.agents_config['business_model_analyst'],
             verbose=True,
             # llm=llm,
             tools=[
@@ -80,36 +93,44 @@ class Consulting():
         )
 
     @task
-    def market_analysis_task(self) -> Task:
+    def evaluate_idea_task(self) -> Task:
         return Task(
-            config=self.tasks_config['market_analysis_task'],
-            async_execution=True,
+            config=self.tasks_config['evaluate_idea_task'],
+            # async_execution=True,
         )
 
     @task
-    def financial_evaluation_task(self) -> Task:
+    def build_persona_task(self) -> Task:
         return Task(
-            config=self.tasks_config['financial_evaluation_task'],
-            async_execution=True,
+            config=self.tasks_config['build_persona_task'],
+            # async_execution=True,
         )
 
     @task
-    def technology_assessment_task(self) -> Task:
+    def lean_canvas_task(self) -> Task:
         return Task(
-            config=self.tasks_config['technology_assessment_task'],
-            async_execution=True,
+            config=self.tasks_config['lean_canvas_task'],
+            # async_execution=True,
         )
 
     @task
-    def marketing_strategy_task(self) -> Task:
+    def mvp_suggestion_task(self) -> Task:
         return Task(
-            config=self.tasks_config['marketing_strategy_task'],
-            async_execution=True,
+            config=self.tasks_config['mvp_suggestion_task'],
+            # async_execution=True,
         )
+    
+    @task
+    def business_model_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['business_model_task'],
+            # async_execution=True,
+        )
+        
+    
 
     @crew
     def crew(self) -> Crew:
-        """Creates the Consulting crew"""
         return Crew(
             agents=self.agents,  # Automatically created by the @agent decorator
             tasks=self.tasks,    # Automatically created by the @task decorator
@@ -120,6 +141,6 @@ class Consulting():
             embedder=None,  # Assuming no embedder is needed for this crew
             short_term_memory=None,  # Assuming no short term memory is needed
             entity_memory=None,  # Assuming no entity memory is needed
-            long_term_memory=LongTermMemory(storage=LTMSQLiteStorage(db_path='consulting_memory.db'))
+            long_term_memory=LongTermMemory(storage=LTMSQLiteStorage(db_path='idea_validation_memory.db'))
             
         )

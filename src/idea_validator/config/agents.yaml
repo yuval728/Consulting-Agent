@@ -40,5 +40,5 @@ business_model_analyst:
   goal: >
     Analyze and critique the monetization and growth model behind {idea}
   backstory: >
-    You're a strategic thinker focused on evaluating startup business models like {business_model},
+    You're a strategic thinker focused on evaluating startup business models
     including pricing strategy, customer acquisition costs, and potential scalability.

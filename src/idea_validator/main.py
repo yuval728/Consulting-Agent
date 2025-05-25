@@ -4,7 +4,7 @@ import warnings
 
 from datetime import datetime
 
-from consulting.crew import Consulting
+from idea_validator.crew import IdeaValidator
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
@@ -26,7 +26,7 @@ def run():
     }
     
     try:
-        Consulting().crew().kickoff(inputs=inputs)
+        IdeaValidator().crew().kickoff(inputs=inputs)
         # Consulting().crew().
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
