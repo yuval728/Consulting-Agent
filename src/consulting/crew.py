@@ -13,11 +13,6 @@ llm = LLM(
     temperature=0.0,
 )
 
-manager = LLM(
-    model="gemini/gemini-2.0-flash",
-    temperature=0.5,
-)
-
 linkup_search = LinkupSearchTool(api_key=os.getenv('LINKUP_API_KEY'))
 
 @CrewBase
@@ -32,11 +27,11 @@ class Consulting():
         return Agent(
             config=self.agents_config['market_analyst'],
             verbose=True,
-            # llm=llm,
-            tools=[
-                ScrapeWebsiteTool(),
-                linkup_search,
-            ],
+            llm=llm,
+            # tools=[
+            #     ScrapeWebsiteTool(),
+            #     linkup_search,
+            # ],
             # allow_delegation=True
         )
 
@@ -45,11 +40,11 @@ class Consulting():
         return Agent(
             config=self.agents_config['financial_advisor'],
             verbose=True,
-            # llm=llm,
-            tools=[
-                ScrapeWebsiteTool(),
-                linkup_search,
-            ],
+            llm=llm,
+            # tools=[
+            #     ScrapeWebsiteTool(),
+            #     linkup_search,
+            # ],
             # allow_delegation=True
         )
 
@@ -58,11 +53,11 @@ class Consulting():
         return Agent(
             config=self.agents_config['tech_consultant'],
             verbose=True,
-            # llm=llm,
-            tools=[
-                ScrapeWebsiteTool(),
-                linkup_search,
-            ],
+            llm=llm,
+            # tools=[
+            #     ScrapeWebsiteTool(),
+            #     linkup_search,
+            # ],
             # allow_delegation=True
         )
 
@@ -71,11 +66,11 @@ class Consulting():
         return Agent(
             config=self.agents_config['marketing_strategist'],
             verbose=True,
-            # llm=llm,
-            tools=[
-                ScrapeWebsiteTool(),
-                linkup_search,
-            ],
+            llm=llm,
+            # tools=[
+            #     ScrapeWebsiteTool(),
+            #     linkup_search,
+            # ],
             # allow_delegation=True
         )
 
@@ -83,21 +78,24 @@ class Consulting():
     def market_analysis_task(self) -> Task:
         return Task(
             config=self.tasks_config['market_analysis_task'],
-            async_execution=True,
+            # async_execution=True,
+            output_file='market_analysis.md',
         )
 
     @task
     def financial_evaluation_task(self) -> Task:
         return Task(
             config=self.tasks_config['financial_evaluation_task'],
-            async_execution=True,
+            # async_execution=True,
+            output_file='financial_evaluation.md',
         )
 
     @task
     def technology_assessment_task(self) -> Task:
         return Task(
             config=self.tasks_config['technology_assessment_task'],
-            async_execution=True,
+            # async_execution=True,
+            output_file='technology_assessment.md',
         )
 
     @task
@@ -105,6 +103,7 @@ class Consulting():
         return Task(
             config=self.tasks_config['marketing_strategy_task'],
             # async_execution=True,
+            output_file='marketing_strategy.md',
         )
 
     @crew
@@ -116,8 +115,8 @@ class Consulting():
             process=Process.sequential,
             verbose=True,
             memory=True,
-            chat_llm=llm,  # Using the defined LLM for chat interactions
-            embedder=None,  # Assuming no embedder is needed for this crew
+            # chat_llm=llm,  # Using the defined LLM for chat interactions
+            # embedder=None,  # Assuming no embedder is needed for this crew
             short_term_memory=None,  # Assuming no short term memory is needed
             entity_memory=None,  # Assuming no entity memory is needed
             long_term_memory=LongTermMemory(storage=LTMSQLiteStorage(db_path='consulting_memory.db'))

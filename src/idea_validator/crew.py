@@ -13,10 +13,6 @@ llm = LLM(
     temperature=0.0,
 )
 
-manager = LLM(
-    model="gemini/gemini-2.0-flash",
-    temperature=0.5,
-)
 
 linkup_search = LinkupSearchTool(api_key=os.getenv('LINKUP_API_KEY'))
 
@@ -32,7 +28,7 @@ class IdeaValidator():
         return Agent(
             config=self.agents_config['idea_evaluator'],
             verbose=True,
-            # llm=llm,
+            llm=llm,
             tools=[
                 ScrapeWebsiteTool(),
                 linkup_search,
@@ -45,7 +41,7 @@ class IdeaValidator():
         return Agent(
             config=self.agents_config['customer_persona_builder'],
             verbose=True,
-            # llm=llm,
+            llm=llm,
             tools=[
                 ScrapeWebsiteTool(),
                 linkup_search,
@@ -58,7 +54,7 @@ class IdeaValidator():
         return Agent(
             config=self.agents_config['lean_canvas_agent'],
             verbose=True,
-            # llm=llm,
+            llm=llm,
             tools=[
                 ScrapeWebsiteTool(),
                 linkup_search,
@@ -71,7 +67,7 @@ class IdeaValidator():
         return Agent(
             config=self.agents_config['mvp_recommender'],
             verbose=True,
-            # llm=llm,
+            llm=llm,
             tools=[
                 ScrapeWebsiteTool(),
                 linkup_search,
@@ -84,7 +80,7 @@ class IdeaValidator():
         return Agent(
             config=self.agents_config['business_model_analyst'],
             verbose=True,
-            # llm=llm,
+            llm=llm,
             tools=[
                 ScrapeWebsiteTool(),
                 linkup_search,
@@ -137,7 +133,6 @@ class IdeaValidator():
             process=Process.sequential,
             verbose=True,
             memory=True,
-            chat_llm=llm,  # Using the defined LLM for chat interactions
             embedder=None,  # Assuming no embedder is needed for this crew
             short_term_memory=None,  # Assuming no short term memory is needed
             entity_memory=None,  # Assuming no entity memory is needed

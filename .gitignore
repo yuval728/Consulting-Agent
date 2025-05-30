@@ -2,3 +2,4 @@
 __pycache__/
 .DS_Store
 consulting_memory.db
+idea_validation_memory.db
