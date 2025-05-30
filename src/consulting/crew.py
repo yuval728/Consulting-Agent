@@ -9,7 +9,7 @@ import dotenv
 dotenv.load_dotenv()
 
 llm = LLM(
-    model="gemini/gemini-2.0-flash-lite",
+    model="gemini/gemini-2.0-flash",
     temperature=0.0,
 )
 
@@ -28,10 +28,10 @@ class Consulting():
             config=self.agents_config['market_analyst'],
             verbose=True,
             llm=llm,
-            # tools=[
-            #     ScrapeWebsiteTool(),
-            #     linkup_search,
-            # ],
+            tools=[
+                ScrapeWebsiteTool(),
+                linkup_search,
+            ],
             # allow_delegation=True
         )
 
@@ -41,10 +41,10 @@ class Consulting():
             config=self.agents_config['financial_advisor'],
             verbose=True,
             llm=llm,
-            # tools=[
-            #     ScrapeWebsiteTool(),
-            #     linkup_search,
-            # ],
+            tools=[
+                ScrapeWebsiteTool(),
+                linkup_search,
+            ],
             # allow_delegation=True
         )
 
@@ -54,10 +54,10 @@ class Consulting():
             config=self.agents_config['tech_consultant'],
             verbose=True,
             llm=llm,
-            # tools=[
-            #     ScrapeWebsiteTool(),
-            #     linkup_search,
-            # ],
+            tools=[
+                ScrapeWebsiteTool(),
+                linkup_search,
+            ],
             # allow_delegation=True
         )
 
@@ -67,10 +67,10 @@ class Consulting():
             config=self.agents_config['marketing_strategist'],
             verbose=True,
             llm=llm,
-            # tools=[
-            #     ScrapeWebsiteTool(),
-            #     linkup_search,
-            # ],
+            tools=[
+                ScrapeWebsiteTool(),
+                linkup_search,
+            ],
             # allow_delegation=True
         )
 
@@ -79,7 +79,7 @@ class Consulting():
         return Task(
             config=self.tasks_config['market_analysis_task'],
             # async_execution=True,
-            output_file='market_analysis.md',
+            # output_file='market_analysis.md',
         )
 
     @task
@@ -87,7 +87,7 @@ class Consulting():
         return Task(
             config=self.tasks_config['financial_evaluation_task'],
             # async_execution=True,
-            output_file='financial_evaluation.md',
+            # output_file='financial_evaluation.md',
         )
 
     @task
@@ -95,7 +95,7 @@ class Consulting():
         return Task(
             config=self.tasks_config['technology_assessment_task'],
             # async_execution=True,
-            output_file='technology_assessment.md',
+            # output_file='technology_assessment.md',
         )
 
     @task
@@ -103,7 +103,7 @@ class Consulting():
         return Task(
             config=self.tasks_config['marketing_strategy_task'],
             # async_execution=True,
-            output_file='marketing_strategy.md',
+            # output_file='marketing_strategy.md',
         )
 
     @crew

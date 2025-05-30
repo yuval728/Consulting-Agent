@@ -1,14 +1,28 @@
 import streamlit as st
-import threading
 from datetime import datetime
 from src.consulting.crew import Consulting
 from src.idea_validator.crew import IdeaValidator
-from event_listener import StreamlitTaskListener
 
 st.set_page_config(page_title="AI Agent Startup Toolkit", layout="centered")
 st.title("🚀 AI-Powered Startup & Consulting Toolkit")
 
 option = st.selectbox("Choose Agent Group:", ["Startup Consulting", "Startup Idea Validation"])
+
+def display_task_outputs(task_outputs):
+    st.markdown("---")
+    st.subheader("📝 Final Task Outputs")
+
+    if isinstance(task_outputs, list):
+        for idx, output in enumerate(task_outputs, 1):
+            st.markdown(f"### 🔹 Task {idx}")
+            st.markdown(output)
+    elif isinstance(task_outputs, dict):
+        for task_name, output in task_outputs.items():
+            st.markdown(f"### 🔹 {task_name}")
+            st.markdown(output)
+    else:
+        st.markdown("⚠️ Unexpected task output format.")
+        st.write(task_outputs)
 
 if option == "Startup Consulting":
     st.subheader("🧠 Consulting Input Form")
@@ -26,32 +40,12 @@ if option == "Startup Consulting":
             "current_year": str(datetime.now().year)
         }
 
-        # Create placeholders for each task
-        task_placeholders = {
-            "Market Analysis": st.empty(),
-            "Financial Evaluation": st.empty(),
-            "Technology Assessment": st.empty(),
-            "Marketing Strategy": st.empty()
-        }
-
-        # Define the callback function to update the UI
-        def update_ui(task_name, output):
-            if task_name in task_placeholders:
-                task_placeholders[task_name].markdown(f"**{task_name} Output:**\n{output}")
-
-        # Initialize the event listener
-        listener = StreamlitTaskListener(update_ui)
-
-        # Run the crew in a separate thread
-        def run_crew():
-            crew = Consulting().crew()
-            crew.kickoff(inputs=inputs)
-        
         with st.spinner("Running Consulting Agents..."):
-            run_crew()
-            
-        # threading.Thread(target=run_crew).start()
+            result = Consulting().crew().kickoff(inputs=inputs)
 
+        # Parse and format task outputs
+        outputs = result.tasks_output if hasattr(result, "tasks_output") else {}
+        display_task_outputs(outputs)
 
 elif option == "Startup Idea Validation":
     st.subheader("🚀 Startup Idea Validation Input Form")
@@ -68,24 +62,9 @@ elif option == "Startup Idea Validation":
             'region': region,
             'current_year': str(datetime.now().year)
         }
-        
-    
-        task_placeholders = {}
-        task_names = ["Idea Evaluation", "Customer Persona Building", "Lean Canvas Creation", "MVP Recommendation", "Validation Tracking"]
-        for task_name in task_names:
-            task_placeholders[task_name] = st.empty()
-            
-        def update_ui(task_name, output):
-            if task_name in task_placeholders:
-                task_placeholders[task_name].markdown(f"**{task_name} Output:**\n{output}")
 
-        
-        listener = StreamlitTaskListener(update_ui)
+        with st.spinner("Running Idea Validation Agents..."):
+            result = IdeaValidator().crew().kickoff(inputs=inputs)
 
-        # Run the crew in a separate thread
-        def run_crew():
-            crew = IdeaValidator().crew()
-            crew.kickoff(inputs=inputs)
-        
-        with st.spinner("Running Agents..."):
-            run_crew()
+        outputs = result.tasks_output if hasattr(result, "tasks_output") else {}
+        display_task_outputs(outputs)
